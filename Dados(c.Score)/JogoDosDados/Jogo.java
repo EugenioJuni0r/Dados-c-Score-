@@ -11,14 +11,21 @@ public class Jogo{
     Dados dado2 = new Dados();
 
     public void inserirJogadores() {
-        boolean continuar;
+        boolean continuar = false;
+        int op;
         do{
             System.out.print("Digite o nome do jogador: ");
             Jogador jogador = new Jogador();
             jogador.setName(ler.nextLine());
             jogadores.add(jogador);
-            System.out.print("Deseja adicionar mais alguém? (1-SIM/0-NAO): ");
-            continuar = ler.nextBoolean();
+            System.out.print("Deseja adicionar mais alguém? (1-SIM): ");
+            op = ler.nextInt();
+            if(op == 1){
+                continuar = true;
+            } else {
+                continuar = false;
+            }
+            ler.nextLine();
         }while(continuar);
     }
     public void inserirApostas(){
@@ -27,7 +34,7 @@ public class Jogo{
             int aposta = ler.nextInt();
             jogador.setValorDaAposta(aposta);
         }
-        ler.nextLine(); // limpar buffer
+        ler.nextLine();
     }
     public void lancarDados(){
         dado1.setValorFace();
@@ -41,7 +48,7 @@ public class Jogo{
     public void mostrarVencedores(){
         int contWin = 0;
         for(Jogador jogador: jogadores){
-            if(jogador.getValorDaAposta() == (dado1.getValorFace()+dado2.getValorFace())){
+            if(jogador.getValorDaAposta() == 3){
                 if(contWin == 0){
                     System.out.println("Houveram vencedores no jogo!");
                 }
