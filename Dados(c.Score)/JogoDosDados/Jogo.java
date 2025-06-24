@@ -1,7 +1,11 @@
 package JogoDosDados;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Collections;
 
 public class Jogo{
 
@@ -52,11 +56,31 @@ public class Jogo{
                 if(contWin == 0){
                     System.out.println("Houveram vencedores no jogo!");
                 }
+                jogador.adicionarVitoria();
                 System.out.println("Nome " + ++contWin + "° vencedor: " + jogador.getName());
             }
         }
         if(contWin == 0){
             System.out.println("Não houveram ganhadores...");
         }
+    }
+    public void mostrarRanking(){
+        
+        int posicao = 1;
+
+        Collections.sort(jogadores);
+        System.out.println("Ranking de Vitorias!: ");
+        for(Jogador jogador: jogadores){
+            System.out.println( posicao++ + "° lugar: " + jogador.getName() + "-" + jogador.getVitorias() + "vitoria(s).");
+        }
+    }
+    public void salvarRankingCSV(String nomeArquivo) throws IOException {
+        PrintWriter writer = new PrintWriter(new FileWriter(nomeArquivo));
+        writer.println("Nome,Vitorias");
+        for (Jogador jogador : jogadores){
+            writer.println(jogador.getName() + "," + jogador.getVitorias());
+        }
+        writer.close();
+        System.out.println("Ranking salvo no arquivo: " + nomeArquivo);
     }
 }
