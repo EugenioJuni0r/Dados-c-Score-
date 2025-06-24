@@ -1,7 +1,11 @@
 package JogoDosDados;
-public class Jogador{
+
+public class Jogador implements Comparable<Jogador>{    /*Comparable é uma interface que compara objetos de uma classe*/
+
     String name;
     int valorDaAposta;
+    int vitorias = 0;
+
     public String getName(){
         return name;
     }
@@ -13,5 +17,15 @@ public class Jogador{
     }
     public void setValorDaAposta(int valorDaAposta){
         this.valorDaAposta = valorDaAposta;
+    }
+    public void adicionarVitoria(){
+        vitorias++;
+    }
+    public int getVitorias(){
+        return vitorias;
+    }
+    @Override /*Sobre escrita de "Comparable" que coloca a Lista de Jogador em ordem decrecente*/
+    public int compareTo(Jogador outro){
+        return Integer.compare(outro.getVitorias(), this.getVitorias());
     }
 }
