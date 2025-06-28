@@ -10,18 +10,25 @@ import java.util.Scanner;
 public class Jogo{
     Scanner ler = new Scanner(System.in);
     String vencedor = null;
-    String path = "C:\\Users\\SUporte\\Documents\\POO - Programação Orientada a Objeto\\sim\\ranking.csv";
-    private ArrayList<Jogador> jogadores = new ArrayList<>();
-    private Dados dado1 = new Dados();
-    private Dados dado2 = new Dados();
+    String path = "ranking.csv";
+    ArrayList<Jogador> jogadores = new ArrayList<>();
+    Dados dado1 = new Dados();
+    Dados dado2 = new Dados();
+    int novaVitoriaCSV;
 
     public void inserirJogadores() {
         boolean continuar = false;
         int op;
         do{
             Jogador jogador = new Jogador();
+            int idNovoJogador;
             System.out.print("Digite o nome do jogador: ");
             jogador.setName(ler.nextLine());
+            do{
+                System.out.print("Digite um ID, que ainda nao foi utilizado, para um jogador: ");
+                idNovoJogador = ler.nextInt();
+                jogador.setId(idNovoJogador);
+            }while(verificadorDeId(idNovoJogador));
             jogadores.add(jogador);
             System.out.print("Deseja adicionar mais alguém? (1-SIM): ");
             op = ler.nextInt();
@@ -62,12 +69,30 @@ public class Jogo{
                 }
                 jogador.adicionarVitoria();
                 System.out.println("Nome " + ++contWin + "° vencedor: " + jogador.getName());
-                vencedor = "Nome: " + jogador.getName() + ";Vitorias: " + jogador.getVitorias() + "\n";
+                if(verificadorDeId(jogador.getId())){
+                    vencedor = jogador.getId() + jogador.getName() + ++novaVitoriaCSV;
+                }else{
+                    vencedor =  jogador.getId() + jogador.getName() + jogador.getVitorias() + "\n";
+                }
                 MyFileHandle.write(path, vencedor ,true);
             }
         }
         if(contWin == 0){
             System.out.println("Não houveram ganhadores...");
         }
+    }
+    public boolean verificadorDeId(int idBusca){
+        String idBuscaS = Integer.toString(idBusca);
+        MyFileHandle.read(path);
+        String[] line;
+        boolean flag = false;
+        for(int i = 0; i < MyFileHandle.lines.size(); i++){
+            line = MyFileHandle.lines.get(i).split(";");
+            if(idBuscaS == line[0]){
+                novaVitoriaCSV = Integer.parseInt(line[2]);
+                return true;
+            }
+        } 
+        return false;
     }
 }
