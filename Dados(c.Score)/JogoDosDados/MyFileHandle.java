@@ -1,12 +1,14 @@
 package JogoDosDados;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MyFileHandle {
-
+    public static ArrayList<String> lines = new ArrayList<String>();
     public MyFileHandle() {
 
     }
@@ -50,7 +52,7 @@ public class MyFileHandle {
          //ler linha a linha
          String line = br.readLine();
          while (line != null) { //equivale ao EOF do Scanner
-              System.out.println(line);
+              lines.add(line);
               line = br.readLine();
          }
          return true;
